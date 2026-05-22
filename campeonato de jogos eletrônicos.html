@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETRO BATTLE CHAMPIONSHIP 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a14;
+            --bg2: #0f0f1e;
+            --neon-pink: #ff5eff;
+            --neon-cyan: #00f0ff;
+            --neon-yellow: #ffe030;
+            --neon-green: #3cff3c;
+            --neon-red: #ff3040;
+            --neon-orange: #ff8c30;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+            --pixel-border-color: #3a2a5a;
+            --text: #e0d8f0;
+            --card-bg: #111128;
+            --input-bg: #0d0d20;
+            --scanline-opacity: 0.04;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1.5rem;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            cursor: default;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 24px 24px;
+            background-position: center center;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(0, 0, 0, var(--scanline-opacity)) 3px,
+                    rgba(0, 0, 0, var(--scanline-opacity)) 6px);
+        }
+
+        .pixel-border {
+            border: 4px solid var(--pixel-border-color);
+            box-shadow:
+                0 0 0 2px #1a1030,
+                0 0 0 6px var(--pixel-border-color),
+                0 0 0 8px #0a0a14,
+                0 0 20px rgba(120, 60, 220, 0.3);
+            image-rendering: pixelated;
+        }
+
+        .pixel-border-thin {
+            border: 3px solid var(--pixel-border-color);
+            box-shadow:
+                0 0 0 1px #1a1030,
+                0 0 0 4px var(--pixel-border-color),
+                0 0 0 5px #0a0a14,
+                0 0 12px rgba(120, 60, 220, 0.25);
+        }
+
+        .pixel-glow-pink {
+            text-shadow:
+                2px 2px 0 #4a004a,
+                -2px -2px 0 #4a004a,
+                2px -2px 0 #4a004a,
+                -2px 2px 0 #4a004a,
+                0 0 10px var(--neon-pink),
+                0 0 30px var(--neon-pink),
+                0 0 50px #ff00ff;
+        }
+        .pixel-glow-cyan {
+            text-shadow:
+                2px 2px 0 #003040,
+                -2px -2px 0 #003040,
+                2px -2px 0 #003040,
+                -2px 2px 0 #003040,
+                0 0 10px var(--neon-cyan),
+                0 0 30px var(--neon-cyan);
+        }
+        .pixel-glow-gold {
+            text-shadow:
+                2px 2px 0 #3d2e00,
+                -2px -2px 0 #3d2e00,
+                0 0 10px var(--gold),
+                0 0 25px var(--gold);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 25px 40px;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(100, 30, 180, 0.15) 0%, transparent 70%);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #1a1035;
+            color: var(--neon-cyan);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.85rem;
+            padding: 10px 22px;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            animation: blink-badge 2s infinite;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        @keyframes blink-badge {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .hero-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+            color: #fff;
+            line-height: 1.5;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            word-wrap: break-word;
+        }
+        .hero-title .line1 {
+            color: var(--neon-pink);
+            display: block;
+        }
+        .hero-title .line2 {
+            color: var(--neon-cyan);
+            display: block;
+        }
+        .hero-title .line3 {
+            color: var(--neon-yellow);
+            display: block;
+            font-size: 0.75em;
+        }
+
+        .hero-subtitle {
+            font-family: 'VT323', monospace;
+            font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+            color: #c0b8e0;
+            max-width: 750px;
+            margin: 0 auto 15px;
+            letter-spacing: 1px;
+        }
+
+        .hero-date {
+            display: inline-block;
+            background: #000;
+            color: var(--neon-green);
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(0.7rem, 1.8vw, 1rem);
+            padding: 15px 30px;
+            margin-top: 20px;
+            letter-spacing: 2px;
+            border: 3px solid var(--neon-green);
+            box-shadow:
+                0 0 0 4px #000,
+                0 0 0 7px var(--neon-green),
+                0 0 25px rgba(60, 255, 60, 0.5);
+            animation: pulse-date 2s ease-in-out infinite;
+        }
+        @keyframes pulse-date {
+            0%,
+            100% {
+                box-shadow: 0 0 0 4px #000, 0 0 0 7px var(--neon-green), 0 0 25px rgba(60, 255, 60, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 0 4px #000, 0 0 0 7px var(--neon-green), 0 0 45px rgba(60, 255, 60, 0.9);
+            }
+        }
+
+        .countdown-section {
+            text-align: center;
+            padding: 30px 15px 40px;
+        }
+        .countdown-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            color: var(--neon-yellow);
+            letter-spacing: 2px;
+            margin-bottom: 22px;
+        }
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: clamp(10px, 2.5vw, 25px);
+            flex-wrap: wrap;
+        }
+        .countdown-item {
+            background: #0d0d24;
+            border: 3px solid #2a2050;
+            padding: 18px clamp(14px, 2.5vw, 28px);
+            text-align: center;
+            min-width: 80px;
+            box-shadow: 0 0 0 2px #000, 0 0 0 5px #2a2050, 0 0 15px rgba(100, 50, 200, 0.3);
+            transition: all 0.3s;
+        }
+        .countdown-item:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 0 2px #000, 0 0 0 5px var(--neon-pink), 0 0 30px rgba(255, 94, 255, 0.5);
+            transform: translateY(-3px);
+        }
+        .countdown-number {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.6rem, 3.5vw, 3rem);
+            color: #fff;
+            display: block;
+            line-height: 1.2;
+        }
+        .countdown-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: #aaa;
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 8px;
+        }
+
+        .section {
+            padding: 50px 25px 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            text-align: center;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: var(--neon-pink);
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+        .section-desc {
+            text-align: center;
+            font-family: 'VT323', monospace;
+            font-size: 1.6rem;
+            color: #c0b8e0;
+            max-width: 700px;
+            margin: -20px auto 35px;
+            letter-spacing: 0.5px;
+        }
+
+        .podium-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            padding: 25px 0;
+        }
+        .podium-stage {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: clamp(10px, 2.5vw, 25px);
+            position: relative;
+        }
+        .podium-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        .podium-block:hover {
+            transform: translateY(-8px);
+        }
+        .podium-medal {
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 15px currentColor);
+            animation: float-medal 3s ease-in-out infinite;
+            z-index: 2;
+        }
+        .podium-block:nth-child(2) .podium-medal {
+            animation-delay: 0s;
+            color: var(--gold);
+        }
+        .podium-block:nth-child(1) .podium-medal {
+            animation-delay: 0.4s;
+            color: var(--silver);
+        }
+        .podium-block:nth-child(3) .podium-medal {
+            animation-delay: 0.8s;
+            color: var(--bronze);
+        }
+
+        @keyframes float-medal {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .podium-pillar {
+            width: clamp(80px, 18vw, 150px);
+            border: 4px solid #2a2050;
+            box-shadow:
+                0 0 0 2px #0a0a14,
+                0 0 0 6px #2a2050,
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            text-align: center;
+            position: relative;
+            image-rendering: pixelated;
+            transition: box-shadow 0.3s;
+        }
+        .podium-pillar.first {
+            height: 260px;
+            background: linear-gradient(180deg, #3d2e00 0%, #1a1000 50%, #0d0800 100%);
+            border-color: #ffd700;
+            box-shadow: 0 0 0 2px #0a0a14, 0 0 0 6px #ffd700, 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        .podium-pillar.second {
+            height: 200px;
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 50%, #0d0d0d 100%);
+            border-color: #c0c0c0;
+            box-shadow: 0 0 0 2px #0a0a14, 0 0 0 6px #c0c0c0, 0 0 20px rgba(192, 192, 192, 0.4);
+        }
+        .podium-pillar.third {
+            height: 150px;
+            background: linear-gradient(180deg, #2e1a0a 0%, #1a0e04 50%, #0d0602 100%);
+            border-color: #cd7f32;
+            box-shadow: 0 0 0 2px #0a0a14, 0 0 0 6px #cd7f32, 0 0 20px rgba(205, 127, 50, 0.4);
+        }
+        .podium-position {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.65rem;
+            color: #fff;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .podium-prize {
+            font-family: 'VT323', monospace;
+            font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+            color: #fff;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        .podium-prize small {
+            display: block;
+            font-size: 0.85rem;
+            color: #ccc;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+        .podium-base {
+            width: clamp(300px, 60vw, 500px);
+            height: 24px;
+            background: #1a1035;
+            border: 3px solid #2a2050;
+            box-shadow: 0 0 0 2px #0a0a14, 0 0 0 5px #2a2050;
+            margin-top: -2px;
+            z-index: 1;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-top: 10px;
+        }
+        .game-card {
+            background: var(--card-bg);
+            padding: 30px 20px;
+            text-align: center;
+            border: 3px solid #2a2050;
+            box-shadow: 0 0 0 2px #0a0a14, 0 0 0 5px #2a2050;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .game-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 0 2px #0a0a14, 0 0 0 5px var(--accent, #2a2050), 0 0 30px var(--accent-glow, rgba(120, 60, 220, 0.5));
+            border-color: var(--accent, #2a2050);
+        }
+        .game-card[data-game="cs2"] {
+            --accent: #f0a841;
+            --accent-glow: rgba(240, 168, 65, 0.6);
+            --accent-bg: rgba(240, 168, 65, 0.08);
+        }
+        .game-card[data-game="valorant"] {
+            --accent: #ff4655;
+            --accent-glow: rgba(255, 70, 85, 0.6);
+            --accent-bg: rgba(255, 70, 85, 0.08);
+        }
+        .game-card[data-game="overwatch2"] {
+            --accent: #f99e1b;
+            --accent-glow: rgba(249, 158, 27, 0.6);
+            --accent-bg: rgba(249, 158, 27, 0.08);
+        }
+        .game-card[data-game="mk"] {
+            --accent: #c41e3a;
+            --accent-glow: rgba(196, 30, 58, 0.6);
+            --accent-bg: rgba(196, 30, 58, 0.08);
+        }
+        .game-card:hover {
+            background: color-mix(in srgb, var(--card-bg) 90%, var(--accent, #2a2050) 10%);
+        }
+        .game-icon {
+            font-size: 4rem;
+            margin-bottom: 12px;
+            display: block;
+            filter: drop-shadow(0 0 8px var(--accent-glow, transparent));
+            transition: transform 0.3s;
+        }
+        .game-card:hover .game-icon {
+            transform: scale(1.2);
+        }
+        .game-name {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem;
+            color: #fff;
+            letter-spacing: 1px;
+            line-height: 1.5;
+        }
+        .game-card .game-subtitle {
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            color: #aaa;
+            display: block;
+            margin-top: 6px;
+        }
+
+        .retro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 18px;
+        }
+        .retro-card {
+            background: #0a0a18;
+            border: 3px solid #1a1035;
+            padding: 22px 12px;
+            text-align: center;
+            box-shadow: 0 0 0 2px #000, 0 0 0 5px #1a1035;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .retro-card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 0 2px #000, 0 0 0 5px var(--neon-cyan), 0 0 22px rgba(0, 240, 255, 0.45);
+            transform: translateY(-4px);
+        }
+        .retro-screen {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: #000;
+            border: 2px solid #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+            image-rendering: pixelated;
+        }
+        .retro-screen.contra {
+            background: #0a1a0a;
+            box-shadow: inset 0 0 30px rgba(0, 180, 0, 0.2);
+        }
+        .retro-screen.doom {
+            background: #1a0000;
+            box-shadow: inset 0 0 30px rgba(200, 0, 0, 0.3);
+        }
+        .retro-screen.nes {
+            background: #1a1a1a;
+            box-shadow: inset 0 0 30px rgba(180, 180, 180, 0.2);
+        }
+        .retro-screen.ps1 {
+            background: #0d0d1a;
+            box-shadow: inset 0 0 30px rgba(100, 100, 200, 0.25);
+        }
+        .retro-screen.ps2 {
+            background: #000520;
+            box-shadow: inset 0 0 30px rgba(0, 50, 180, 0.3);
+        }
+        .retro-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.65rem;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        .retro-card:hover .retro-label {
+            color: var(--neon-cyan);
+        }
+
+        .form-section {
+            background: var(--bg2);
+            padding: 40px 30px;
+            border: 4px solid #2a2050;
+            box-shadow: 0 0 0 3px #0a0a14, 0 0 0 7px #2a2050, 0 0 30px rgba(100, 50, 200, 0.25);
+            max-width: 650px;
+            margin: 0 auto;
+            image-rendering: pixelated;
+        }
+        .form-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.95rem;
+            text-align: center;
+            color: var(--neon-yellow);
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 22px;
+        }
+        .form-group label {
+            display: block;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.65rem;
+            color: #c0b8e0;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1.4rem;
+            background: var(--input-bg);
+            color: #fff;
+            border: 3px solid #2a2050;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            outline: none;
+            border-radius: 0;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 0 18px rgba(0, 240, 255, 0.35);
+            background: #0f0f28;
+        }
+        .form-group input::placeholder {
+            color: #555;
+            letter-spacing: 1px;
+            font-size: 1.2rem;
+        }
+        .form-group select {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23ff5eff'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+        .form-group select option {
+            background: #0d0d20;
+            color: #fff;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            background: #1a0040;
+            color: #fff;
+            border: 4px solid var(--neon-pink);
+            cursor: pointer;
+            box-shadow: 0 0 0 2px #000, 0 0 0 6px var(--neon-pink), 0 0 20px rgba(255, 94, 255, 0.4);
+            transition: all 0.3s;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-submit:hover {
+            background: #2a0060;
+            box-shadow: 0 0 0 2px #000, 0 0 0 6px var(--neon-pink), 0 0 40px rgba(255, 94, 255, 0.8);
+            transform: translateY(-2px);
+            letter-spacing: 3px;
+        }
+        .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: 0 0 0 2px #000, 0 0 0 6px var(--neon-pink), 0 0 15px rgba(255, 94, 255, 0.5);
+            transition: all 0.05s;
+        }
+        .btn-submit::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn-submit:hover::after {
+            opacity: 1;
+        }
+
+        .toast {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-130px);
+            background: #0d0d24;
+            border: 3px solid var(--neon-green);
+            box-shadow: 0 0 0 2px #000, 0 0 0 5px var(--neon-green), 0 0 25px rgba(60, 255, 60, 0.6);
+            padding: 20px 35px;
+            z-index: 10000;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem;
+            color: var(--neon-green);
+            letter-spacing: 2px;
+            text-align: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            max-width: 90vw;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.error {
+            border-color: var(--neon-red);
+            box-shadow: 0 0 0 2px #000, 0 0 0 5px var(--neon-red), 0 0 25px rgba(255, 48, 64, 0.6);
+            color: var(--neon-red);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 35px 25px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: #666;
+            letter-spacing: 2px;
+            border-top: 2px solid #1a1035;
+            margin-top: 50px;
+        }
+
+        .pixel-divider {
+            text-align: center;
+            font-size: 1.8rem;
+            letter-spacing: 10px;
+            color: var(--neon-pink);
+            margin: 20px 0;
+            user-select: none;
+            animation: blink-divider 1.5s infinite;
+        }
+        @keyframes blink-divider {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .star-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            font-size: 1rem;
+            animation: star-rise 2s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes star-rise {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) scale(0.3);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 1.25rem;
+            }
+            .podium-stage {
+                gap: 8px;
+            }
+            .podium-pillar {
+                width: clamp(60px, 20vw, 100px);
+            }
+            .podium-pillar.first {
+                height: 190px;
+            }
+            .podium-pillar.second {
+                height: 150px;
+            }
+            .podium-pillar.third {
+                height: 110px;
+            }
+            .podium-base {
+                width: clamp(220px, 65vw, 360px);
+                height: 18px;
+            }
+            .podium-medal {
+                font-size: 2.5rem;
+            }
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+            .retro-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .hero-title {
+                font-size: clamp(1.3rem, 5vw, 2rem);
+            }
+            .form-section {
+                padding: 30px 18px;
+            }
+            .countdown-item {
+                min-width: 60px;
+                padding: 12px 14px;
+            }
+            .countdown-number {
+                font-size: 1.3rem;
+            }
+            .countdown-label {
+                font-size: 0.45rem;
+            }
+            .hero-badge {
+                font-size: 0.65rem;
+            }
+            .hero-date {
+                font-size: 0.55rem;
+                padding: 10px 18px;
+            }
+            .section-title {
+                font-size: 0.8rem;
+            }
+            .section-desc {
+                font-size: 1.3rem;
+            }
+            .game-name {
+                font-size: 0.6rem;
+            }
+            .game-subtitle {
+                font-size: 1rem;
+            }
+            .btn-submit {
+                font-size: 0.7rem;
+                padding: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 1.1rem;
+            }
+            .games-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .retro-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .podium-stage {
+                gap: 4px;
+            }
+            .podium-pillar {
+                width: 60px;
+            }
+            .podium-pillar.first {
+                height: 150px;
+            }
+            .podium-pillar.second {
+                height: 115px;
+            }
+            .podium-pillar.third {
+                height: 85px;
+            }
+            .podium-prize {
+                font-size: 0.85rem;
+            }
+            .podium-prize small {
+                font-size: 0.65rem;
+            }
+            .podium-medal {
+                font-size: 2rem;
+            }
+            .hero-badge {
+                font-size: 0.55rem;
+                padding: 8px 14px;
+            }
+            .hero-date {
+                font-size: 0.5rem;
+                padding: 10px 18px;
+            }
+            .section-title {
+                font-size: 0.7rem;
+            }
+            .section-desc {
+                font-size: 1.15rem;
+            }
+            .btn-submit {
+                font-size: 0.6rem;
+                padding: 12px;
+            }
+            .countdown-title {
+                font-size: 0.65rem;
+            }
+            .countdown-number {
+                font-size: 1.1rem;
+            }
+            .form-title {
+                font-size: 0.7rem;
+            }
+            .form-group label {
+                font-size: 0.5rem;
+            }
+            .form-group input,
+            .form-group select {
+                font-size: 1.1rem;
+                padding: 12px 14px;
+            }
+            .toast {
+                font-size: 0.55rem;
+                padding: 15px 20px;
+            }
+            .footer {
+                font-size: 0.4rem;
+            }
+        }
+        /* Adicione ao final do estilo atual, dentro de <style> */
+.game-card .game-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    background: #0a0a18;
+    padding: 12px;
+    border-radius: 0;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.game-card .game-icon img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    image-rendering: crisp-edges;
+    border: 2px solid #2a2050;
+    background: #000;
+    transition: transform 0.2s;
+}
+
+.game-card:hover .game-icon img {
+    transform: scale(1.05);
+}
+    </style>
+</head>
+<body>
+
+    <div class="toast" id="toast"></div>
+
+    <header class="hero">
+        <div class="hero-badge">🎮 TORNEIO OFICIAL</div>
+        <h1 class="hero-title">
+            <span class="line1 pixel-glow-pink">RETRO BATTLE</span>
+            <span class="line2 pixel-glow-cyan">CHAMPIONSHIP</span>
+            <span class="line3 pixel-glow-gold">2026</span>
+        </h1>
+        <p class="hero-subtitle">
+            O maior campeonato de jogos eletrônicos com espírito retrô!<br>
+            Prepare-se para reviver a era de ouro dos games enquanto compete nos títulos mais quentes da atualidade.
+        </p>
+        <div class="hero-date">📅 15 DE AGOSTO DE 2026</div>
+    </header>
+
+    <section class="countdown-section">
+        <p class="countdown-title">⏳ CONTAGEM REGRESSIVA ⏳</p>
+        <div class="countdown-container" id="countdown">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">DIAS</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">HORAS</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">MINUTOS</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">SEGUNDOS</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="pixel-divider">◈ ◈ ◈</div>
+
+    <section class="section" id="jogos-competicao">
+        <h2 class="section-title pixel-glow-cyan">🎯 JOGOS DA COMPETIÇÃO</h2>
+        <p class="section-desc">Escolha sua arena e mostre suas habilidades! Quatro jogos, uma glória.</p>
+        <div class="games-grid">
+            <div class="game-card pixel-border-thin" data-game="cs2">
+                <span class="game-icon"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthf.bing.com%2Fth%2Fid%2FOIP.rWzDpI0XfaOdEU88H2AOmQHaEK%3Fr%3D0%26cb%3Dthfc1falcon%26pid%3DApi&f=1&ipt=a6b9c84dcd3618deafc22b5c1fa984cb01298c63fd33416f41f5b27cbb8bf24f&ipo=images"></span>
+                <span class="game-name">CS2</span>
+                <span class="game-subtitle">Counter-Strike 2</span>
+            </div>
+            <div class="game-card pixel-border-thin" data-game="valorant">
+                <span class="game-icon"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.ibxk.com.br%2F2021%2F03%2F22%2F22175519591468.jpg%3Fw%3D704&f=1&nofb=1&ipt=59ed78f5381a5c6e20e0abf9605e174ea16313a9149e9414a5f0bdf80065117a" alt=""></span>
+                <span class="game-name">VALORANT</span>
+                <span class="game-subtitle">Riot Games</span>
+            </div>
+            <div class="game-card pixel-border-thin" data-game="overwatch2">
+                <span class="game-icon"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fgamingbolt.com%2Fwp-content%2Fuploads%2F2019%2F11%2FOverwatch-2.jpg&f=1&nofb=1&ipt=f2ea5d4cc0f9f0f59aa3a092c076c0c6262229d8ea8b27e3e79c2a0721836b57" alt=""></span>
+                <span class="game-name">OVERWATCH 2</span>
+                <span class="game-subtitle">Blizzard</span>
+            </div>
+            <div class="game-card pixel-border-thin" data-game="mk">
+                <span class="game-icon"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn2.unrealengine.com%2Fegs-mortalkombat1defintiveedition-netherrealmstudiosqloc-editions-g1a-00-1920x1080-4de805dffaf7.jpg&f=1&nofb=1&ipt=d0ec0f6b0d024ff3f2a64f3240fcd3dac6d213760835346fc274ecc958151b5e" alt=""></span>
+                <span class="game-name">MORTAL KOMBAT 1</span>
+                <span class="game-subtitle">MK1 Tournament</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="pixel-divider">◆ ◆ ◆</div>
+
+    <section class="section" id="premiacoes">
+        <h2 class="section-title pixel-glow-gold">🏆 PREMIAÇÕES</h2>
+        <p class="section-desc">Suba ao pódio e conquiste prêmios incríveis!</p>
+        <div class="podium-wrapper">
+            <div class="podium-stage">
+                <div class="podium-block">
+                    <span class="podium-medal">🥈</span>
+                    <div class="podium-pillar second">
+                        <span class="podium-position">2º</span>
+                        <span class="podium-prize">R$ 2.000<small>+ Mouse Gamer</small></span>
+                    </div>
+                </div>
+                <div class="podium-block">
+                    <span class="podium-medal">🥇</span>
+                    <div class="podium-pillar first">
+                        <span class="podium-position">1º</span>
+                        <span class="podium-prize">R$ 5.000<small>+ Troféu + Kit Gamer</small></span>
+                    </div>
+                </div>
+                <div class="podium-block">
+                    <span class="podium-medal">🥉</span>
+                    <div class="podium-pillar third">
+                        <span class="podium-position">3º</span>
+                        <span class="podium-prize">R$ 1.000<small>+ Headset</small></span>
+                    </div>
+                </div>
+            </div>
+            <div class="podium-base"></div>
+        </div>
+    </section>
+
+    <div class="pixel-divider">◆ ◆ ◆</div>
+
+    <section class="section" id="cadastro">
+        <div class="form-section pixel-border">
+            <h2 class="form-title">📋 INSCREVA-SE AGORA</h2>
+            <form id="registrationForm" novalidate>
+                <div class="form-group">
+                    <label for="nome">👤 Nome Completo</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite seu nome..." required minlength="3">
+                </div>
+                <div class="form-group">
+                    <label for="email">📧 E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="jogo">🎮 Jogo Escolhido</label>
+                    <select id="jogo" name="jogo" required>
+                        <option value="" disabled selected>-- Selecione o jogo --</option>
+                        <option value="cs2">Counter-Strike 2 (CS2)</option>
+                        <option value="valorant">Valorant</option>
+                        <option value="overwatch2">Overwatch 2</option>
+                        <option value="mk">Mortal Kombat</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="login">🔑 Login</label>
+                    <input type="text" id="login" name="login" placeholder="Crie seu login..." required minlength="4">
+                </div>
+                <div class="form-group">
+                    <label for="senha">🔒 Senha</label>
+                    <input type="password" id="senha" name="senha" placeholder="Crie uma senha segura..." required minlength="6">
+                </div>
+                <button type="submit" class="btn-submit">⚔️ INSCREVER-SE ⚔️</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 RETRO BATTLE CHAMPIONSHIP — TODOS OS DIREITOS RESERVADOS</p>
+        <p style="margin-top:8px;color:#444;">FEITO COM ❤️ E PIXEL ART</p>
+    </footer>
+
+    <script>
+        const eventDate = new Date('2026-08-15T09:00:00-03:00');
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = eventDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast';
+            if (isError) {
+                toast.classList.add('error');
+            }
+            void toast.offsetWidth;
+            toast.classList.add('show');
+
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        const form = document.getElementById('registrationForm');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nome = document.getElementById('nome').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const jogo = document.getElementById('jogo').value;
+            const login = document.getElementById('login').value.trim();
+            const senha = document.getElementById('senha').value;
+
+            if (nome.length < 3) {
+                showToast('⚠️ Nome deve ter pelo menos 3 caracteres!', true);
+                document.getElementById('nome').focus();
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showToast('⚠️ Insira um e-mail válido!', true);
+                document.getElementById('email').focus();
+                return;
+            }
+
+            if (!jogo) {
+                showToast('⚠️ Selecione um jogo!', true);
+                document.getElementById('jogo').focus();
+                return;
+            }
+
+            if (login.length < 4) {
+                showToast('⚠️ Login deve ter pelo menos 4 caracteres!', true);
+                document.getElementById('login').focus();
+                return;
+            }
+
+            if (senha.length < 6) {
+                showToast('⚠️ Senha deve ter pelo menos 6 caracteres!', true);
+                document.getElementById('senha').focus();
+                return;
+            }
+
+            const jogoNomes = {
+                'cs2': 'Counter-Strike 2',
+                'valorant': 'Valorant',
+                'overwatch2': 'Overwatch 2',
+                'mk': 'Mortal Kombat'
+            };
+            const jogoNome = jogoNomes[jogo] || jogo;
+
+            showToast('✅ INSCRIÇÃO REALIZADA! Bem-vindo(a), ' + nome + '! Jogo: ' + jogoNome +
+                ' — Boa sorte no torneio! 🏆');
+
+            spawnParticles();
+
+            form.reset();
+            document.getElementById('jogo').value = '';
+        });
+
+        function spawnParticles() {
+            const emojis = ['⭐', '✨', '🎮', '🏆', '💎', '🔥', '⚡', '🌟', '💥', '🎯'];
+            const count = 30;
+
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('span');
+                    particle.classList.add('star-particle');
+                    particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    particle.style.left = Math.random() * 90 + '%';
+                    particle.style.top = Math.random() * 60 + 30 + '%';
+                    particle.style.fontSize = (Math.random() * 1.8 + 0.8) + 'rem';
+                    particle.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                    document.body.appendChild(particle);
+
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 3500);
+                }, i * 40);
+            }
+        }
+
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+     </script>
+</body>
+</html>

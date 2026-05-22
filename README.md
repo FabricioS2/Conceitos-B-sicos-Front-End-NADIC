@@ -54,7 +54,7 @@ Cada card possui uma imagem ilustrativa (buscada de URLs externas) e o nome do j
 
 ---
 
-## 🏆 5. Seção “Premiações” com Pódio 3D
+## 🏆 5. Seção “Premiações” com Pódio
 
 - Representação visual de um pódio com três lugares:
   - **1º lugar**: R$ 5.000 + Troféu + Kit Gamer (pilastra mais alta, dourada)
@@ -130,8 +130,3 @@ Em essência, este código é uma **landing page interativa e estilizada** para 
 - CSS3 com animações, flexbox, grid e responsividade
 - JavaScript puro (manipulação do DOM, eventos, `setInterval`, validação de formulários, geração dinâmica de elementos)
 
----
-
-## 👨‍💻 Autor
-
-Projeto criado para fins educacionais – simula um campeonato de games com tema retrowave.
